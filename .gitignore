@@ -1,0 +1,7 @@
+.project
+.log
+.settings
+.prefs
+.classpath
+baeldung.log
+logs.log
