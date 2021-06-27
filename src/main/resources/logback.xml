@@ -15,9 +15,6 @@
     </encoder>
   </appender>
      
-     <logger name="com.example" level="debug"/>
-     <logger name="com.example" level="trace"/>
-     
     <root level="INFO">
         <appender-ref ref="fout" />
         <appender-ref ref="stdout" />
