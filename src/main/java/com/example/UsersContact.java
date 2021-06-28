@@ -35,13 +35,6 @@ public class UsersContact {
 		this.phoneNo = phoneNo;
 		return this;
 	}
-	public UsersContact() {
-		
-		
-	}
-	
-	
-	 
-	 
-	
+	public UsersContact() {	
+	}	
 }
