@@ -16,7 +16,7 @@
   
   @Autowired UsersRepository usersRepository;
  
-  @GetMapping(value="/get")
+  @GetMapping(value="/getAllContacts")
   public List <UsersContact> getContacts()
 	  {
 		  return usersContactRepository.findAll();
