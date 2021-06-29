@@ -31,7 +31,6 @@ public class Users {
 	@Column(name = "city")
 	private String city;
 	
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="contact_id ", referencedColumnName="id")
 	private UsersContact usersContact;
@@ -54,7 +53,6 @@ public class Users {
 		return this;
 	}
 	
-
 	public Users() {
 	}
 
