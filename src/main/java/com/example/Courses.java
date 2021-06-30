@@ -27,6 +27,7 @@ public class Courses {
 		@Column(name = "name")
 		private String name;
 		
+		//Many to Many mapping with Users class using Join Table method
 		@ManyToMany(cascade = CascadeType.ALL)
 		@JoinTable(name="users_enrolled",joinColumns=@JoinColumn(name="course_id"),inverseJoinColumns=@JoinColumn(name="user_id"))
 		private Set<Users> users = new HashSet<Users>();
