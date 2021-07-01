@@ -16,17 +16,20 @@ public class CourseController {
 	UsersRepository usersRepository;
 
 	
+	//Get API to get lists of all courses
 	@GetMapping(value = "/get")
 	public List<Courses> getCourses() {
 		return courseRepository.findAll();
 	}
 
+	//Post API to store new course  
 	@PostMapping(value = "/load")
 	Courses createCourse(@RequestBody Courses courses)
 	{
 		return courseRepository.save(courses);
 	}
 	
+	//Put API to update a particular course recognized by given Id
 	@PutMapping("/{courseId}/users/{userId}")
 	Courses enrollUsersCourse(@PathVariable int courseId, @PathVariable int userId)
 	{
