@@ -1,12 +1,20 @@
 package com.example;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/*import Repository.UsersRepository;
+
+import Entity.Users;
+import Exception.NoNameException;
+import Exception.NoUserFoundException;*/
 
 import java.util.List;
 
@@ -26,23 +34,28 @@ public class UsersController {
 	}
 	
 	@GetMapping(value="/get/{id}")
-	public ResponseEntity<Users> getDataById(@PathVariable("id") int id)
+	@Cacheable(value="Users", key="#id")
+	public Users getDataById(@PathVariable("id") int id)
 	{
-		if(usersRepository.findById(id).isPresent())
-		{
+		
+		  if(usersRepository.findById(id).isPresent()) {
+		 
 			logger.info("Show information of user with id number: {}",id);
-			return new ResponseEntity<Users>(usersRepository.findById(id).get(),HttpStatus.OK);
+			logger.info("Data is taken from Data Base");
+			return usersRepository.findById(id).get();
 		}
 	
-		else
-		{
-			logger.error("No user found for id = "+id);
-			throw new NoUserFoundException("No User for ID: "+id);
-		}
+		
+		
+		  else { logger.error("No user found for id = "+id); throw new
+		  NoUserFoundException("No User for ID: "+id); }
+		 
+		 
 	}
 
 	@PostMapping(value = "/load")
-	public List<Users> addData(@RequestBody final Users users) {
+	@CachePut(value="Users", key="#users.getId()")
+	public Users addData(@RequestBody final Users users) {
 		
 		if((users.getName().isEmpty()) || (users.getName().length()==0))
 		{	
@@ -52,8 +65,8 @@ public class UsersController {
 		else
 		{
 			 logger.info("User Added");
-			 usersRepository.save(users); 
-			 return usersRepository.findAll();
+			 return usersRepository.save(users); 
+			 
 			 
 		}
 	}
@@ -65,7 +78,7 @@ public class UsersController {
 		if(usersRepository.findById(id).isPresent())
 		{
 			logger.info("Attributes of user with id {} is updated.",id);
-			Users new_user = usersRepository.findById(null).get();
+			Users new_user = usersRepository.findById(id).get();
 			new_user.setName(users.getName());
 			new_user.setAge(users.getAge());
 			new_user.setCity(users.getCity());
